@@ -2,15 +2,59 @@
 <html lang="en" ng-app>
   <head>
     <title>Click Example</title>
+    <script type="text/javascript" src="js/jquery.min.js">
+    </script>
+    <script>
+    function performGetAndWaitForResult(id, scriptUrl)
+  {
+     var result = null;
+     scriptUrl = scriptUrl+ id;
+     $.ajax({
+        url: scriptUrl,
+        type: 'get',
+        dataType: 'html',
+        async: false,
+        success: function(data) {
+            result = data;
+            //sollte sein: .responseJSON["clicks"]
+        } 
+     });
+     return result;
+  }
+  
+    function buttonLabelSet(id){
+      var selector = "#"+id;
+      $(selector).prop("value", JSON.parse(performGetAndWaitForResult(id, "/getclix?id="))['clicks'] + " Clicks");
+    }
+    
+    function buttonActionSet(id){
+      var selector = "#"+id;
+      $(selector).click(
+        function(){
+          performGetAndWaitForResult(id,"/incpoint?id=");
+          buttonLabelSet(id);
+        });
+    }
+    
+    function addClickCounterFunc(id){
+      buttonActionSet(id);
+      buttonLabelSet(id); 
+    }
+    
+
+    
+    
+    $(document).ready(function(){
+      addClickCounterFunc("ccb");
+      addClickCounterFunc("ccd");
+    });
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+ <!---   <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css"> --->
   </head>
   <body>
-  <button type="button">Click Me!</button>
-
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/angular.min.js"></script>
+  <input type="submit" id="ccb">
+  <input type="submit" id="ccd">
   </body>
 </html>

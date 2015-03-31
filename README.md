@@ -1,13 +1,37 @@
-Striped smallest example of a node server. Based on:
-     ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
+Mini Server, der clicks auf einen Button zählt und ausgeben kann.
+Dazu index.html, auf welcher derzeit 2 Bsp. Buttons sind.
+ 
+ Sehr gute Version am 18.03.2015 um 15:00 Uhr gespechert.
+ counts in Memory gespeichert
+ 
+ Sehr gute Version am 25.03.2015 um 14:20 Uhr gespeichert.
+ counts in mongdb gespeichert.
+ Funktionsänderung: man muss nun registerID?ID=abc 1-malig aufrufen, danach wird gezählt.
 
 
-Welcome to your Node.js project on Cloud9 IDE!
+####  Für die Tests:
+(mongodbstart, serverstart)
+CALL https://clickcounterbutton-johorst.c9.io/registerID?id=ccc
+EXPECT "Herzlich willkommen, Button."
+
+CALL https://clickcounterbutton-johorst.c9.io/incpoint?id=ccc
+EXPECT "Hallo Click"
+
+CALL https://clickcounterbutton-johorst.c9.io/getclix?id=ccc
+EXPECT JSON.parse(ergebnis)['clicks'] == 2
+
+####  Installationsanweisung:
+"apt-get install mongodb"
+"./mongod"
+-> Die Mongo Datenbank sollte laufen.
+
+Der Sever benötigt node.js und folgende Pakete: 
+npm install express, mongoose
+
+mit node server.js wird der Server gestartet.
+
+
+"Node.js project on Cloud9 IDE!"
 
 This chat example showcases how to use `socket.io` with a static `express` server.
 
